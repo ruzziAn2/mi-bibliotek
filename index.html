@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="bootstrap.min.css">
+    <script src="https://kit.fontawesome.com/0cc1af3202.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="style.css">
+    <title>MyBookList </title>
+</head>
+
+<body>
+
+    <div class="container mt-4">
+        <h1 class="display-4 text-center">
+            <i class="fas fa-book-open text-primary"></i> Mi
+            <span class="text-primary">Bibliotek</span></h1>
+
+            <form id="book-form">
+                <div class="form-group">
+                    <label for="title" style="width: 30%">Title</label>
+                    <input type="text" id="title" class="form-ontrol" style="width: 70%">
+                </div>
+                <div class="form-group">
+                    <label for="author" style="width: 30%">Author</label>
+                    <input type="text" id="author" class="form-ontrol" style="width: 70%">
+                </div>
+                <div class="form-group">
+                    <label for="pages" style="width: 30%">Pages</label>
+                    <input type="number" id="pages" class="form-ontrol" style="width: 70%">
+                </div>
+                <div class="form-group">
+                    <label for="isbn" style="width: 30%">ISBN</label>
+                    <input type="number" id="isbn" class="form-ontrol" style="width: 70%">
+                </div>
+                <div class="form-group">
+                    <label for="isRead" style="width: 30%">¿is read?</label>
+                    <input type="checkbox" id="isRead" class="form-ontrol" style="width: 70%">
+                </div>
+                <input type="submit" value="Add book" class="btn btn-primary btn-block" style="width: 70%">
+            </form>
+            <table class="table table-striped mt-5">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Author</th>
+                        <th>Pages</th>
+                        <th>ISBN</th>
+                        <th>¿is read?</th>
+                    </tr>
+                </thead>
+                <tbody id="book-list"></tbody>
+            </table>
+    </div>
+
+
+
+    <script src="script.js"></script>
+</body>
+
+</html>
