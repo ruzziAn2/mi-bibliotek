@@ -2,7 +2,7 @@ class Book {
     constructor(title, author, pages, read, isbn) {
         this.title = title;
         this.author = author;
-        this.pages = pages + 'pgs';
+        this.pages = pages;
         this.read = read;
         this.isbn = isbn;
     }
