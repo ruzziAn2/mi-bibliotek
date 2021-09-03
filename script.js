@@ -27,9 +27,7 @@ const defaultBooks = [{
 class Store {
     static addBook(book){
         const books = Store.getBooks()
-
         books.push(book)
-
         localStorage.setItem('books', JSON.stringify(books))
     }
     static removeBook(isbn){
@@ -78,7 +76,7 @@ class UI {
         title.value = '';
         pages.value = '';
         isbn.value = '';
-        isRead.checked = '';
+        isRead.checked = false;
     }
 
 
@@ -95,7 +93,7 @@ class UI {
         <td>${book.pages} pg</td>
         <td>${book.isbn}</td>
         <td>${book.read? "read":"unread"}</td>
-        <td><a href="#" class="btn btn-danger btn-sm delete">X</a></td>
+        <td><a id="delete" href="#" class="btn btn-danger btn-sm delete">X</a></td>
         `
 
         list.appendChild(row)
@@ -125,8 +123,14 @@ function addBookToLibrary(e) {
     UI.clearFields()
 }
 document.getElementById('book-list').addEventListener('click', handleRemove);
+document.getElementById('book-list').addEventListener('click', showBook)
+function showBook(e){
+    UI.showAlert(`${e.target}`, 'success')
+}
+
 
 function handleRemove(e) {
     UI.deleteBook(e.target)
-    UI.showAlert('Book Removed', 'success')
+    UI.showAlert('The X are for delete', 'success')
 }
+
