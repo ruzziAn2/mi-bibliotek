@@ -8,41 +8,34 @@ class Book {
     }
 }
 
-const defaultBooks = [{
-        title: 'Book 1',
-        author: 'Prueba',
-        pages: 4,
-        isbn: 123,
-        read: true
-    },
-    {
-        title: 'Book 2',
-        author: 'Prueba',
-        pages: 4,
-        isbn: 1231,
-        read: false
-    }
-]
 
 class Store {
-    static addBook(book){
+    static getBooks() {
+        let books;
+        if (books === null) return []
+        else {
+            books = JSON.parse(localStorage.getItem('books'))
+        }
+        return books
+    }
+
+    static addBook(book) {
         const books = Store.getBooks()
         books.push(book)
         localStorage.setItem('books', JSON.stringify(books))
     }
-    static removeBook(isbn){
+    static removeBook(isbn) {
         const books = Store.getBooks()
-        const newBooks = books.filter(item => {
-            return item.isbn !== isbn
-        })
-        localStorage.setItem('books', JSON.stringify(newBooks))
-        
+        books.forEach((book, index) => {
+            if (book.isbn === isbn) {
+                books.splice(index, 1);
+            }
+        });
+
+        localStorage.setItem('books', JSON.stringify(books))
+
     }
-    static getBooks(){
-        const books = localStorage.getItem('books')
-        if(!books) return []
-        return JSON.parse(books)
-    }
+
 }
 
 class UI {
@@ -81,11 +74,15 @@ class UI {
 
 
     static displayBooks() {
-        defaultBooks.forEach(book => UI.addBookToList(book))
+        const books = Store.getBooks()
+        books.forEach(book => {
+            UI.addBookToList(book)
+        })
     }
     static addBookToList(book) {
         const list = document.getElementById('book-list');
         const row = document.createElement('tr');
+
 
         row.innerHTML = `
         <td>${book.title}</td>
@@ -99,7 +96,7 @@ class UI {
         list.appendChild(row)
     }
 }
-UI.displayBooks()
+document.addEventListener('DOMContentLoaded', UI.displayBooks);
 
 document.querySelector('#book-form').addEventListener('submit', addBookToLibrary, false)
 
@@ -109,28 +106,22 @@ function addBookToLibrary(e) {
     const title = document.getElementById('title').value
     const author = document.getElementById('author').value
     const pages = document.getElementById('pages').value
+    const isbn = document.getElementById('isbn').value
     const isRead = document.getElementById('isRead').value
 
-    if (!author || !title || !pages) {
+    if (!author || !title || !pages || !isbn) {
         UI.showAlert('Please enter correct details', 'danger')
         return
     }
 
-    const book = new Book(title, author, pages, isRead)
+    const book = new Book(title, author, pages, isbn, isRead)
 
     UI.addBookToList(book)
     UI.showAlert('Book Added', 'success')
     UI.clearFields()
+    Store.addBook(book)
 }
-document.getElementById('book-list').addEventListener('click', handleRemove);
-document.getElementById('book-list').addEventListener('click', showBook)
-function showBook(e){
-    UI.showAlert(`${e.target}`, 'success')
-}
-
-
-function handleRemove(e) {
-    UI.deleteBook(e.target)
-    UI.showAlert('The X are for delete', 'success')
-}
-
+document.getElementById('book-list').addEventListener('click', (e) => {
+    UI.deleteBook(e.target);
+    UI.showAlert('Book Removed', 'success')
+});
